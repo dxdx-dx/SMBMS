@@ -1,2 +1,11 @@
 /.idea/
 *.iml
+# IntelliJ
+/out/
+.idea
+.idea/
+/.idea
+# Maven
+/target/
+# web
+/web/WEB-INF/classes/
