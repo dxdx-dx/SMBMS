@@ -7,10 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
- <h1>hello,SpringMVC!</h1>
- <h1>username(key:string) --> ${string}</h1>
- <h1>username(key:username) --> ${username}</h1>
- <h1>username(key:currentUser) --> ${currentUser.userName}</h1>
- <h1>username(key:user) --> ${user.userName}</h1>
+<h1>请登录后再访问该页面！</h1>
+<a href="${pageContext.request.contextPath }/user/login.html">返回</a>
 </body>
 </html>
