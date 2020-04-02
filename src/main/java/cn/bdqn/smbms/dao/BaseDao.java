@@ -38,6 +38,54 @@ public class BaseDao {
     }
 
     /**
+     * 查询方法
+     *
+     * @param connection
+     * @param preparedStatement
+     * @param resultSet
+     * @param sql
+     * @param params
+     * @return
+     * @throws SQLException
+     */
+    public static ResultSet executeQuery(Connection connection, PreparedStatement preparedStatement,
+                                         ResultSet resultSet, String sql, Object[] params) throws SQLException {
+        preparedStatement = connection.prepareStatement(sql);
+        for (int i = 0; i < params.length; i++) {
+            preparedStatement.setObject(i + 1, params[i]);
+        }
+        resultSet = preparedStatement.executeQuery();
+        return resultSet;
+    }
+
+    /**
+     * 增删改方法
+     *
+     * @param connection
+     * @param preparedStatement
+     * @param sql
+     * @param params
+     * @return
+     * @throws SQLException
+     */
+    public static int executeUpdate(Connection connection, PreparedStatement preparedStatement,
+                                    String sql, Object[] params) throws SQLException {
+        int result = 0;
+        preparedStatement = connection.prepareStatement(sql);
+
+        if (params != null) {
+            for (int i = 0; i < params.length; i++) {
+                preparedStatement.setObject(i + 1, params[i]);
+            }
+        }
+        result = preparedStatement.executeUpdate();
+
+
+        return result;
+
+    }
+
+    /**
      * 关闭资源
      *
      * @param connection
