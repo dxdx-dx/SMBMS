@@ -1,0 +1,33 @@
+package cn.bdqn.smbms.service.impl;
+
+import cn.bdqn.smbms.dao.BaseDao;
+import cn.bdqn.smbms.dao.RoleDao;
+import cn.bdqn.smbms.pojo.Role;
+import cn.bdqn.smbms.service.RoleService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+@Service
+public class RoleServiceImpl implements RoleService {
+    @Resource
+    private RoleDao roleDao;
+
+    @Override
+    public List<Role> findAll() {
+        Connection connection = null;
+        List<Role> roleList = null;
+        try {
+            connection = BaseDao.getConnection();
+            roleList = roleDao.findAll(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            BaseDao.closeResource(connection, null, null);
+        }
+        return roleList;
+    }
+}
