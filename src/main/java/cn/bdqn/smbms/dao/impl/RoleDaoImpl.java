@@ -20,7 +20,7 @@ public class RoleDaoImpl implements RoleDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         resultSet = BaseDao.executeQuery(connection, preparedStatement, resultSet, sql, null);
-        List<Role> roleList = new ArrayList<>();
+        List<Role> roleList = new ArrayList<Role>();
         Role role;
         while (resultSet.next()) {
             role = new Role();
@@ -28,6 +28,8 @@ public class RoleDaoImpl implements RoleDao {
             role.setRoleCode(resultSet.getString("roleCode"));
             role.setRoleName(resultSet.getString("roleName"));
             roleList.add(role);
+            System.out.println("------------------------------------------------------");
+            System.out.println(role);
         }
         BaseDao.closeResource(null, preparedStatement, resultSet);
         return roleList;

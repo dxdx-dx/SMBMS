@@ -51,8 +51,20 @@ public class BaseDao {
     public static ResultSet executeQuery(Connection connection, PreparedStatement preparedStatement,
                                          ResultSet resultSet, String sql, Object[] params) throws SQLException {
         preparedStatement = connection.prepareStatement(sql);
-        for (int i = 0; i < params.length; i++) {
-            preparedStatement.setObject(i + 1, params[i]);
+        System.out.println("------------------connection----------------------");
+        System.out.println(connection);
+        System.out.println("------------------preparedStatement----------------------");
+        System.out.println(preparedStatement);
+        System.out.println("------------------resultSet----------------------");
+        System.out.println(resultSet);
+        System.out.println("------------------sql----------------------");
+        System.out.println(sql);
+        System.out.println("------------------params----------------------");
+        System.out.println(params);
+        if (params != null) {
+            for (int i = 0; i < params.length; i++) {
+                preparedStatement.setObject(i + 1, params[i]);
+            }
         }
         resultSet = preparedStatement.executeQuery();
         return resultSet;
@@ -79,8 +91,6 @@ public class BaseDao {
             }
         }
         result = preparedStatement.executeUpdate();
-
-
         return result;
 
     }

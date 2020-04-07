@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,7 +20,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findAll() {
         Connection connection = null;
-        List<Role> roleList = null;
+        List<Role> roleList = new ArrayList<Role>();
         try {
             connection = BaseDao.getConnection();
             roleList = roleDao.findAll(connection);
