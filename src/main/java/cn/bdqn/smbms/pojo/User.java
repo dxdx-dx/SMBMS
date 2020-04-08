@@ -23,7 +23,17 @@ public class User {
     private Integer modifyBy; // 更新者
     private Date modifyDate; // 更新时间
 
+    private Integer age;//年龄
     private String userRoleName;//角色名称
+
+    public Integer getAge() {
+        int _age = new Date().getYear() - getBirthday().getYear();
+        return _age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 
     public String getUserRoleName() {
         return userRoleName;

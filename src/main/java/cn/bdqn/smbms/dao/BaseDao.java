@@ -4,11 +4,14 @@ import cn.bdqn.smbms.util.ConfigManager;
 
 import java.sql.*;
 
+/**
+ * 数据库连接帮助类
+ */
 public class BaseDao {
-    static String driver = ConfigManager.getInstance().getValue("driver");
-    static String url = ConfigManager.getInstance().getValue("url");
-    static String user = ConfigManager.getInstance().getValue("user");
-    static String password = ConfigManager.getInstance().getValue("password");
+    static String driver = ConfigManager.getInstance().getValue("driver");//驱动
+    static String url = ConfigManager.getInstance().getValue("url");//路径
+    static String user = ConfigManager.getInstance().getValue("user");//用户名
+    static String password = ConfigManager.getInstance().getValue("password");//密码
 
 
     /**
@@ -51,22 +54,16 @@ public class BaseDao {
     public static ResultSet executeQuery(Connection connection, PreparedStatement preparedStatement,
                                          ResultSet resultSet, String sql, Object[] params) throws SQLException {
         preparedStatement = connection.prepareStatement(sql);
-        System.out.println("------------------connection----------------------");
-        System.out.println(connection);
-        System.out.println("------------------preparedStatement----------------------");
-        System.out.println(preparedStatement);
-        System.out.println("------------------resultSet----------------------");
-        System.out.println(resultSet);
-        System.out.println("------------------sql----------------------");
+        System.out.println("----------------------------------------------------------------------");
         System.out.println(sql);
-        System.out.println("------------------params----------------------");
-        System.out.println(params);
+        System.out.println("----------------------------------------------------------------------");
         if (params != null) {
             for (int i = 0; i < params.length; i++) {
                 preparedStatement.setObject(i + 1, params[i]);
             }
         }
         resultSet = preparedStatement.executeQuery();
+
         return resultSet;
     }
 

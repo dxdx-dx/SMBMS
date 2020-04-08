@@ -12,8 +12,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 角色Dao层实现类
+ */
 @Repository
 public class RoleDaoImpl implements RoleDao {
+    /**
+     * 查询所有角色
+     *
+     * @param connection
+     * @return
+     * @throws SQLException
+     */
     @Override
     public List<Role> findAll(Connection connection) throws SQLException {
         String sql = "SELECT `id`,`roleCode`,`roleName`FROM `smbms_role`";
@@ -28,8 +38,6 @@ public class RoleDaoImpl implements RoleDao {
             role.setRoleCode(resultSet.getString("roleCode"));
             role.setRoleName(resultSet.getString("roleName"));
             roleList.add(role);
-            System.out.println("------------------------------------------------------");
-            System.out.println(role);
         }
         BaseDao.closeResource(null, preparedStatement, resultSet);
         return roleList;

@@ -13,8 +13,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 用户dao层实现类
+ */
 @Repository
 public class UserDaoImpl implements UserDao {
+    /**
+     * 根据userCode查询用户
+     *
+     * @param connection
+     * @param userCode
+     * @return
+     * @throws SQLException
+     */
     @Override
     public List<User> findByUserCode(Connection connection, String userCode) throws SQLException {
         PreparedStatement preparedStatement = null;
@@ -45,6 +56,17 @@ public class UserDaoImpl implements UserDao {
         return userList;
     }
 
+    /**
+     * 分页查询用户
+     *
+     * @param connection
+     * @param userName
+     * @param userRole
+     * @param pageNo
+     * @param pageSize
+     * @return
+     * @throws SQLException
+     */
     @Override
     public List<User> findByPage(Connection connection, String userName, Integer userRole, Integer pageNo, Integer pageSize) throws SQLException {
         PreparedStatement preparedStatement = null;
@@ -52,18 +74,24 @@ public class UserDaoImpl implements UserDao {
         List<User> userList = new ArrayList<>();
         List<Object> paramsList = new ArrayList<>();
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT u.*,r.roleName FROM `smbms_role` r,`smbms_user` u WHERE r.id=u.`userRole` ");
+        sql.append("SELECT u.*,r.roleName FROM `smbms_role` r,`smbms_user` u WHERE r.id=u.`userRole`");
         if (!StringUtils.isNullOrEmpty(userName)) {
-            sql.append("AND `userName` LIKE CONCAT('%',?,'%')");
+            sql.append(" AND `userName` LIKE CONCAT('%',?,'%')");
             paramsList.add(userName);
         }
         if (userRole > 0) {
-            sql.append("AND u.`userRole`=?");
+            sql.append(" AND `userRole`=?");
             paramsList.add(userRole);
         }
-        sql.append("ORDER BY `creationDate`DESC LIMIT ?, ? ");
+        sql.append(" ORDER BY `creationDate`DESC LIMIT ?,? ");
         paramsList.add(pageNo);
         paramsList.add(pageSize);
+        System.out.println("=====================sql.toString()===========================");
+        System.out.println(sql.toString());
+        System.out.println("=====================userName===========================");
+        System.out.println(userName + "+++" + userRole + "+++" + pageNo + "+++" + pageSize);
+        System.out.println("=====================paramsList===========================");
+        System.out.println(paramsList.toArray());
         resultSet = BaseDao.executeQuery(connection, preparedStatement, resultSet, sql.toString(), paramsList.toArray());
         User user;
         while (resultSet.next()) {
@@ -88,6 +116,15 @@ public class UserDaoImpl implements UserDao {
         return userList;
     }
 
+    /**
+     * 查询用户总条数
+     *
+     * @param connection
+     * @param userName
+     * @param userRole
+     * @return
+     * @throws SQLException
+     */
     @Override
     public int findByPageCount(Connection connection, String userName, Integer userRole) throws SQLException {
         PreparedStatement preparedStatement = null;

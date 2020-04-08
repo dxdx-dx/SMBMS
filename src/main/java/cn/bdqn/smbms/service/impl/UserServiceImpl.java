@@ -4,6 +4,7 @@ import cn.bdqn.smbms.dao.BaseDao;
 import cn.bdqn.smbms.dao.UserDao;
 import cn.bdqn.smbms.pojo.User;
 import cn.bdqn.smbms.service.UserService;
+import cn.bdqn.smbms.util.Constants;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -11,12 +12,22 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * 用户业务逻辑层实现类
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
     @Resource
     private UserDao userDao;
 
+    /**
+     * 登陆
+     *
+     * @param userCode
+     * @param password
+     * @return
+     */
     @Override
     public User login(String userCode, String password) {
         Connection connection = null;
@@ -39,13 +50,22 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    /**
+     * 分页显示用户列表
+     *
+     * @param userName
+     * @param userRole
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
     @Override
     public List<User> findByPage(String userName, Integer userRole, Integer pageNo, Integer pageSize) {
         Connection connection = null;
         List<User> userList = null;
         try {
             connection = BaseDao.getConnection();
-            userList = userDao.findByPage(connection, userName, userRole, pageNo, pageSize);
+            userList = userDao.findByPage(connection, userName, userRole, (pageNo - 1) * Constants.PAGE_SIZE, pageSize);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -54,6 +74,13 @@ public class UserServiceImpl implements UserService {
         return userList;
     }
 
+    /**
+     * 查询用后记录数
+     *
+     * @param userName
+     * @param userRole
+     * @return
+     */
     @Override
     public int findByPageCount(String userName, Integer userRole) {
         Connection connection = null;

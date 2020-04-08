@@ -12,11 +12,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 角色业务逻辑层实现类
+ */
 @Service
 public class RoleServiceImpl implements RoleService {
     @Resource
     private RoleDao roleDao;
 
+    /**
+     * 查询所有角色
+     *
+     * @return
+     */
     @Override
     public List<Role> findAll() {
         Connection connection = null;
