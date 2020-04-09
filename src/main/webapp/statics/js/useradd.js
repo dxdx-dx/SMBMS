@@ -8,8 +8,31 @@ var userRole = null;
 var addBtn = null;
 var backBtn = null;
 
-
+//文件上传变量
+var a_idPicPath = null;
+var errorinfo = null;
+var a_workPicPath = null;
+var errorinfo_wp = null;
 $(function(){
+	//文件上传提示信息
+	a_idPicPath = $("#a_idPicPath");
+	errorinfo = $("#errorinfo");
+	
+	if(errorinfo.val() == null || errorinfo.val() == ""){
+		a_idPicPath.next().html("上传大小不能超过500KB，上传的文件类型必须为：jpg,jpeg,png,pneg");
+	}else{
+		a_idPicPath.next().html(errorinfo.val());
+	}
+	
+	a_workPicPath = $("#a_workPicPath");
+	errorinfo_wp = $("#errorinfo_wp");
+	
+	if(errorinfo_wp.val() == null || errorinfo_wp.val() == ""){
+		a_workPicPath.next().html("上传大小不能超过500KB，上传的文件类型必须为：jpg,jpeg,png,pneg");
+	}else{
+		a_workPicPath.next().html(errorinfo.val());
+	}
+	
 	userCode = $("#userCode");
 	userName = $("#userName");
 	userPassword = $("#userPassword");
@@ -60,6 +83,7 @@ $(function(){
 	userCode.bind("blur",function(){
 		//ajax后台验证--userCode是否已存在
 		//user.do?method=ucexist&userCode=**
+		/*
 		$.ajax({
 			type:"GET",//请求类型
 			url:path+"/jsp/user.do",//请求的url
@@ -76,11 +100,11 @@ $(function(){
 				validateTip(userCode.next(),{"color":"red"},imgNo+" 您访问的页面不存在",false);
 			}
 		});
-		
+		*/
 		
 	}).bind("focus",function(){
 		//显示友情提示
-		validateTip(userCode.next(),{"color":"#666666"},"* 用户编码是您登录系统的账号",false);
+		validateTip(userCode.next(),{"color":"#666666"},"* 用户编码是您登录系统的账号",true);
 	}).focus();
 	
 	userName.bind("focus",function(){

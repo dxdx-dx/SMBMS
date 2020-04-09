@@ -95,4 +95,21 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
+
+    @Override
+    public boolean adduser(User user) {
+        Connection connection = null;
+        boolean result = false;
+        int res = 0;
+        try {
+            connection = BaseDao.getConnection();
+            res = userDao.adduser(connection, user);
+            if (res > 0) result = true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            BaseDao.closeResource(connection, null, null);
+        }
+        return result;
+    }
 }

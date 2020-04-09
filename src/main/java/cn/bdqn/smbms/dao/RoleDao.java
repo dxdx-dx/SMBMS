@@ -12,9 +12,10 @@ import java.util.List;
 public interface RoleDao {
     /**
      * 查询所有哦角色列表
-     * @param connection
-     * @return
-     * @throws SQLException
+     *
+     * @param connection 连接对象
+     * @return 角色列表
+     * @throws SQLException 一异常
      */
     List<Role> findAll(Connection connection) throws SQLException;
 }

@@ -13,34 +13,45 @@ public interface UserDao {
     /**
      * 根据UserCode查询用户
      *
-     * @param connection
-     * @param userCode
-     * @return
-     * @throws SQLException
+     * @param connection 连接对象
+     * @param userCode   用户名Code
+     * @return 用户
+     * @throws SQLException 异常
      */
     List<User> findByUserCode(Connection connection, String userCode) throws SQLException;
 
     /**
      * 分页查询用户列表
      *
-     * @param connection
-     * @param userName
-     * @param userRole
-     * @param pageNo
-     * @param pageSize
-     * @return
-     * @throws SQLException
+     * @param connection 连接对象
+     * @param userName   用户名
+     * @param userRole   用户角色
+     * @param pageNo     当前页
+     * @param pageSize   页大小
+     * @return 用户列表
+     * @throws SQLException 异常
      */
 
     List<User> findByPage(Connection connection, String userName, Integer userRole, Integer pageNo, Integer pageSize) throws SQLException;
 
     /**
-     *查询用户总条数
-     *  @param connection
-     * @param userName
-     * @param userRole
-     * @return
-     * @throws SQLException
+     * 查询用户总条数
+     *
+     * @param connection 连接对象
+     * @param userName   用户名
+     * @param userRole   用户角色
+     * @return 总记录数
+     * @throws SQLException 异常
      */
     int findByPageCount(Connection connection, String userName, Integer userRole) throws SQLException;
+
+    /**
+     * 添加用户
+     *
+     * @param connection 连接对象
+     * @param user       用户对象
+     * @return 受影响行数
+     * @throws SQLException 异常
+     */
+    int adduser(Connection connection, User user) throws SQLException;
 }

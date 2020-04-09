@@ -2,6 +2,8 @@ package cn.bdqn.smbms.service;
 
 import cn.bdqn.smbms.pojo.User;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -37,4 +39,11 @@ public interface UserService {
      */
     int findByPageCount(String userName, Integer userRole);
 
+    /**
+     * 添加用户
+     *
+     * @param user 用户对象
+     * @return 添加结果
+     */
+    boolean adduser(User user);
 }

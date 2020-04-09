@@ -14,9 +14,7 @@ public class BaseDao {
     static String password = ConfigManager.getInstance().getValue("password");//密码
 
 
-    /**
-     * 加载驱动
-     */
+    //加载驱动
     static {
         try {
             Class.forName(driver);
@@ -28,7 +26,7 @@ public class BaseDao {
     /**
      * 获取链接
      *
-     * @return
+     * @return 数据库连接对象
      */
     public static Connection getConnection() {
         Connection connection = null;
@@ -43,13 +41,13 @@ public class BaseDao {
     /**
      * 查询方法
      *
-     * @param connection
-     * @param preparedStatement
-     * @param resultSet
-     * @param sql
-     * @param params
-     * @return
-     * @throws SQLException
+     * @param connection        连接对象
+     * @param preparedStatement preparedStatement对象
+     * @param resultSet         结果集对象
+     * @param sql               SQL语句
+     * @param params            参数数组
+     * @return resultSet结果集
+     * @throws SQLException 异常
      */
     public static ResultSet executeQuery(Connection connection, PreparedStatement preparedStatement,
                                          ResultSet resultSet, String sql, Object[] params) throws SQLException {
@@ -70,12 +68,12 @@ public class BaseDao {
     /**
      * 增删改方法
      *
-     * @param connection
-     * @param preparedStatement
-     * @param sql
-     * @param params
-     * @return
-     * @throws SQLException
+     * @param connection        连接对象
+     * @param preparedStatement preparedStatement对象
+     * @param sql               sql语句
+     * @param params            参数数组
+     * @return 受影响行数
+     * @throws SQLException 异常
      */
     public static int executeUpdate(Connection connection, PreparedStatement preparedStatement,
                                     String sql, Object[] params) throws SQLException {
@@ -95,9 +93,9 @@ public class BaseDao {
     /**
      * 关闭资源
      *
-     * @param connection
-     * @param preparedStatement
-     * @param resultSet
+     * @param connection        连接对象
+     * @param preparedStatement preparedStatement对象
+     * @param resultSet         resultSet对象
      */
     public static void closeResource(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
         if (resultSet != null) {

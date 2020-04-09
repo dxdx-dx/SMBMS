@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
+/**
+ * 用户控制层
+ */
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -40,11 +44,11 @@ public class UserController {
     /**
      * 登陆工能
      *
-     * @param userCode
-     * @param userPassword
-     * @param sesion
-     * @param request
-     * @return
+     * @param userCode     用户名code
+     * @param userPassword 密码
+     * @param sesion       sesion对象
+     * @param request      request对象
+     * @return 登陆页面
      */
     @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
     public String doLogin(@RequestParam String userCode, @RequestParam String userPassword, HttpSession sesion, HttpServletRequest request) {
@@ -68,11 +72,11 @@ public class UserController {
     /**
      * 用户列表的分页显示
      *
-     * @param queryname
-     * @param queryUserRole
-     * @param pageIndex
-     * @param model
-     * @return
+     * @param queryname     用户名
+     * @param queryUserRole 用户角色
+     * @param pageIndex     当前页
+     * @param model         model对象
+     * @return 用户列表页面
      */
     @RequestMapping("/userlist")
     public String userList(
@@ -119,8 +123,8 @@ public class UserController {
     /**
      * 注销功能
      *
-     * @param httpSession
-     * @return
+     * @param httpSession httpSession对象
+     * @return 返回登陆页面
      */
     @RequestMapping("/logout")
     public String logout(HttpSession httpSession) {
@@ -129,12 +133,46 @@ public class UserController {
         }
         return "redirect:/user/login";
     }
+
+    /**
+     * 跳转到添加用户页面
+     *
+     * @param model model对象
+     * @return 用户添加页面
+     */
+    @RequestMapping("/useradd")
+    public String adduser(Model model) {
+        List<Role> roleList = roleService.findAll();
+        model.addAttribute("roleList", roleList);
+        return "useradd";
+    }
+
+    /**
+     * 添加用户
+     *
+     * @param user        用户对象
+     * @param httpSession session对象
+     * @return 跳转页面
+     */
+    @RequestMapping("/addsave")
+    public String addsave(User user, HttpSession httpSession) {
+        User userSession = (User) httpSession.getAttribute(Constants.USER_SESSION);
+        user.setCreatedBy(userSession.getId());
+        user.setCreationDate(new Date());
+        boolean result = userService.adduser(user);
+        if (result) {
+            return "redirect:/user/userlist";
+        } else {
+            return "useradd";
+        }
+    }
+
     /**
      * 局部异常处理
      *
      * @param e
      * @param request
-     * @return
+     * @return error
      */
     //    @ExceptionHandler(value = RuntimeException.class)
     //    public String handlerException(RuntimeException e, HttpServletRequest request) {
