@@ -24,7 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <fm:form method="post" modelAttribute="user" action="${pageContext.request.contextPath }/user/saveuser">
+    <fm:form method="post" modelAttribute="user" action="${pageContext.request.contextPath }/user/addsave">
     	<fm:errors path="userCode" /><br/>
     	用户编码：<fm:input path="userCode"/><br />
     	<fm:errors path="userName" /><br/>

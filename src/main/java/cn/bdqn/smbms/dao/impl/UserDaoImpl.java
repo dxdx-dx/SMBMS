@@ -170,4 +170,40 @@ public class UserDaoImpl implements UserDao {
         BaseDao.closeResource(null, preparedStatement, null);
         return result;
     }
+
+    /**
+     * @param connection
+     * @param id
+     * @return
+     */
+    @Override
+    public User findById(Connection connection, Integer id) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM `smbms_user` WHERE id=?";
+        Object[] params = {id};
+        resultSet = BaseDao.executeQuery(connection, preparedStatement, resultSet, sql, params);
+        User user = null;
+        while (resultSet.next()) {
+            user = new User();
+            user.setId(resultSet.getInt("id"));
+            user.setUserCode(resultSet.getString("userCode"));
+            user.setUserName(resultSet.getString("userName"));
+            user.setUserPassword(resultSet.getString("userPassword"));
+            user.setGender(resultSet.getInt("gender"));
+            user.setBirthday(resultSet.getDate("birthday"));
+            user.setPhone(resultSet.getString("phone"));
+            user.setAddress(resultSet.getString("address"));
+            user.setUserRole(resultSet.getInt("userRole"));
+            user.setCreatedBy(resultSet.getInt("createdBy"));
+            user.setCreationDate(resultSet.getDate("creationDate"));
+            user.setModifyBy(resultSet.getInt("modifyBy"));
+            user.setModifyDate(resultSet.getDate("modifyDate"));
+            user.setUserRoleName(resultSet.getString("roleName"));
+
+        }
+        BaseDao.closeResource(null, preparedStatement, resultSet);
+        return user;
+    }
+
 }

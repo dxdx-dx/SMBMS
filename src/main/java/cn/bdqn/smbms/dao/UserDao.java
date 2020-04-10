@@ -54,4 +54,14 @@ public interface UserDao {
      * @throws SQLException 异常
      */
     int adduser(Connection connection, User user) throws SQLException;
+
+    /**
+     * 根据id查询用户
+     *
+     * @param connection 连接对象
+     * @param id         用户id
+     * @return user对象
+     */
+    User findById(Connection connection, Integer id) throws SQLException;
+
 }

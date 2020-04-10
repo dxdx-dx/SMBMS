@@ -9,6 +9,8 @@ import cn.bdqn.smbms.util.PageSupport;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -141,9 +144,10 @@ public class UserController {
      * @return 用户添加页面
      */
     @RequestMapping("/useradd")
-    public String adduser(Model model) {
+    public String adduser(@ModelAttribute("user") User user, Model model) {
         List<Role> roleList = roleService.findAll();
         model.addAttribute("roleList", roleList);
+        //return "useradd";
         return "useradd";
     }
 
@@ -155,7 +159,10 @@ public class UserController {
      * @return 跳转页面
      */
     @RequestMapping("/addsave")
-    public String addsave(User user, HttpSession httpSession) {
+    public String addsave(@Valid User user, BindingResult bindingResult, HttpSession httpSession) {
+//        if (bindingResult.hasErrors()) {
+//            return "user/adduser";
+//        }
         User userSession = (User) httpSession.getAttribute(Constants.USER_SESSION);
         user.setCreatedBy(userSession.getId());
         user.setCreationDate(new Date());
@@ -163,6 +170,7 @@ public class UserController {
         if (result) {
             return "redirect:/user/userlist";
         } else {
+            // return "user/adduser";
             return "useradd";
         }
     }

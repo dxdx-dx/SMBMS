@@ -112,4 +112,25 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
+
+    /**
+     * 根据id查询用户
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public User findById(Integer id) {
+        Connection connection = null;
+        User user = null;
+        connection = BaseDao.getConnection();
+        try {
+            user = userDao.findById(connection, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            BaseDao.closeResource(connection, null, null);
+        }
+        return user;
+    }
 }
