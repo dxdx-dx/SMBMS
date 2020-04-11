@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Past;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author asus
  */
-public class User {
+public class User implements Serializable {
     private Integer id; // id
     @NotEmpty(message = "用户编码不能为空")
     private String userCode; // 用户编码

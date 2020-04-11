@@ -23,7 +23,7 @@ public class RoleServiceImpl implements RoleService {
     /**
      * 查询所有角色
      *
-     * @return
+     * @return 角色集合
      */
     @Override
     public List<Role> findAll() {

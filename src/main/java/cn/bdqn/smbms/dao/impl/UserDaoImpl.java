@@ -21,10 +21,10 @@ public class UserDaoImpl implements UserDao {
     /**
      * 根据userCode查询用户
      *
-     * @param connection
-     * @param userCode
-     * @return
-     * @throws SQLException
+     * @param connection 连接对象
+     * @param userCode   用户编码
+     * @return 用户对象
+     * @throws SQLException sql异常
      */
     @Override
     public List<User> findByUserCode(Connection connection, String userCode) throws SQLException {
@@ -59,13 +59,13 @@ public class UserDaoImpl implements UserDao {
     /**
      * 分页查询用户
      *
-     * @param connection
-     * @param userName
-     * @param userRole
-     * @param pageNo
-     * @param pageSize
-     * @return
-     * @throws SQLException
+     * @param connection 连接对象
+     * @param userName   用户名称
+     * @param userRole   用户角色
+     * @param pageNo     当前页
+     * @param pageSize   页大小
+     * @return 用户集合
+     * @throws SQLException sql异常
      */
     @Override
     public List<User> findByPage(Connection connection, String userName, Integer userRole, Integer pageNo, Integer pageSize) throws SQLException {
@@ -119,11 +119,11 @@ public class UserDaoImpl implements UserDao {
     /**
      * 查询用户总条数
      *
-     * @param connection
-     * @param userName
-     * @param userRole
-     * @return
-     * @throws SQLException
+     * @param connection 连接对象
+     * @param userName   用户名
+     * @param userRole   用户角色
+     * @return 记录数
+     * @throws SQLException sql异常
      */
     @Override
     public int findByPageCount(Connection connection, String userName, Integer userRole) throws SQLException {
@@ -151,10 +151,10 @@ public class UserDaoImpl implements UserDao {
     /**
      * 添加用户
      *
-     * @param connection
-     * @param user
-     * @return
-     * @throws SQLException
+     * @param connection 连接对象
+     * @param user       用户对象
+     * @return 受影响行数
+     * @throws SQLException sql异常
      */
     @Override
     public int adduser(Connection connection, User user) throws SQLException {
@@ -172,9 +172,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     /**
-     * @param connection
-     * @param id
-     * @return
+     * 根据id查询用户
+     *
+     * @param connection 连接对象
+     * @param id         用户编号
+     * @return 用户对象
      */
     @Override
     public User findById(Connection connection, Integer id) throws SQLException {

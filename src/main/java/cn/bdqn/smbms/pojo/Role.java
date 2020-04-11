@@ -1,5 +1,6 @@
 package cn.bdqn.smbms.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  * @author asus
  *
  */
-public class Role {
+public class Role implements Serializable {
 	private Integer id;//主键ID
 	private String  roleCode;//角色编码
 	private String roleName;//角色名称

@@ -1,5 +1,6 @@
 package cn.bdqn.smbms.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  * @author asus
  *
  */
-public class Provider {
+public class Provider implements Serializable {
 	private Integer id;//主键ID
 	private String  proCode;//供应商编码
 	private String proName;//供应商名称

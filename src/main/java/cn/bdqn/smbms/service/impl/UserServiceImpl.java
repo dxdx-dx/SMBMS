@@ -24,9 +24,9 @@ public class UserServiceImpl implements UserService {
     /**
      * 登陆
      *
-     * @param userCode
-     * @param password
-     * @return
+     * @param userCode 用户编码
+     * @param password 用户密码
+     * @return 用户对象
      */
     @Override
     public User login(String userCode, String password) {
@@ -53,11 +53,11 @@ public class UserServiceImpl implements UserService {
     /**
      * 分页显示用户列表
      *
-     * @param userName
-     * @param userRole
-     * @param pageNo
-     * @param pageSize
-     * @return
+     * @param userName 用户名
+     * @param userRole 用户角色
+     * @param pageNo   当前页
+     * @param pageSize 页大小
+     * @return 用户集合
      */
     @Override
     public List<User> findByPage(String userName, Integer userRole, Integer pageNo, Integer pageSize) {
@@ -75,11 +75,11 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 查询用后记录数
+     * 查询用户记录数
      *
-     * @param userName
-     * @param userRole
-     * @return
+     * @param userName 用户名
+     * @param userRole 用户角色
+     * @return 记录数
      */
     @Override
     public int findByPageCount(String userName, Integer userRole) {
@@ -96,6 +96,12 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    /**
+     * 添加用户
+     *
+     * @param user 用户对象
+     * @return 添加状态
+     */
     @Override
     public boolean adduser(User user) {
         Connection connection = null;
@@ -116,8 +122,8 @@ public class UserServiceImpl implements UserService {
     /**
      * 根据id查询用户
      *
-     * @param id
-     * @return
+     * @param id 用户id
+     * @return 用户对象
      */
     @Override
     public User findById(Integer id) {

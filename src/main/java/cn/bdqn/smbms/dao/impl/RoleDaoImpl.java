@@ -20,9 +20,9 @@ public class RoleDaoImpl implements RoleDao {
     /**
      * 查询所有角色
      *
-     * @param connection
-     * @return
-     * @throws SQLException
+     * @param connection 连接对象
+     * @return 角色集合
+     * @throws SQLException 异常
      */
     @Override
     public List<Role> findAll(Connection connection) throws SQLException {
