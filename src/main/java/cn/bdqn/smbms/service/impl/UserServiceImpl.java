@@ -126,17 +126,61 @@ public class UserServiceImpl implements UserService {
      * @return 用户对象
      */
     @Override
-    public User findById(Integer id) {
+    public User findUserById(Integer id) {
         Connection connection = null;
         User user = null;
         connection = BaseDao.getConnection();
         try {
-            user = userDao.findById(connection, id);
+            user = userDao.findUserById(connection, id);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             BaseDao.closeResource(connection, null, null);
         }
         return user;
+    }
+
+    /**
+     * @param user 用户对象
+     * @return 跳转页面
+     */
+    @Override
+    public boolean modifyUser(User user) {
+        Connection connection = null;
+        boolean result = false;
+        int res = 0;
+        try {
+            connection = BaseDao.getConnection();
+            res = userDao.modifyUser(connection, user);
+            if (res > 0) result = true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            BaseDao.closeResource(connection, null, null);
+        }
+        return result;
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean deluser(Integer id) {
+        Connection connection = null;
+        boolean result = false;
+        int res = 0;
+        try {
+            connection = BaseDao.getConnection();
+            res = userDao.deluser(connection, id);
+            if (res > 0) result = true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            BaseDao.closeResource(connection, null, null);
+        }
+        return result;
     }
 }

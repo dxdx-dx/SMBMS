@@ -3,7 +3,6 @@ package cn.bdqn.smbms.service;
 import cn.bdqn.smbms.pojo.User;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -23,5 +22,11 @@ public interface UserService {
     boolean adduser(User user);
 
     //根据id查询用户
-    User findById(Integer id);
+    User findUserById(Integer id);
+
+    //修改用户
+    boolean modifyUser(User user);
+
+    //删除用户
+    boolean deluser(Integer id);
 }

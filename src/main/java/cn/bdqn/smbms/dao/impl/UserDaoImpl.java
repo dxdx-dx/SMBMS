@@ -179,10 +179,10 @@ public class UserDaoImpl implements UserDao {
      * @return 用户对象
      */
     @Override
-    public User findById(Connection connection, Integer id) throws SQLException {
+    public User findUserById(Connection connection, Integer id) throws SQLException {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT * FROM `smbms_user` WHERE id=?";
+        String sql = "SELECT u.* ,r.`roleName` FROM `smbms_user` u,`smbms_role` r WHERE u.`userRole`= r.`id` AND u.id=?";
         Object[] params = {id};
         resultSet = BaseDao.executeQuery(connection, preparedStatement, resultSet, sql, params);
         User user = null;
@@ -208,4 +208,44 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
+    /**
+     * 修改用户
+     *
+     * @param connection 连接对象
+     * @param user       用户对象
+     * @return 受影响行数
+     * @throws SQLException SQL异常
+     */
+    @Override
+    public int modifyUser(Connection connection, User user) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        int result;
+        String sql = "UPDATE   `smbms`.`smbms_user` SET `userName` = ?," +
+                "  `gender` = ?,  `birthday` = ?,  `phone` =?,  `address` = ?," +
+                "  `userRole` =?, `modifyBy` =?,`modifyDate` = ? WHERE `id` =?";
+        Object[] params = {user.getUserName(), user.getGender(), user.getBirthday(), user.getPhone(),
+                user.getAddress(), user.getUserRole(), user.getModifyBy(), user.getModifyDate(), user.getId()};
+        result = BaseDao.executeUpdate(connection, preparedStatement, sql, params);
+        BaseDao.closeResource(null, preparedStatement, null);
+        return result;
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param connection
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    @Override
+    public int deluser(Connection connection, Integer id) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        int result;
+        Object[] params = {id};
+        String sql = "DELETE FROM`smbms`.`smbms_user` WHERE `id` = ? ";
+        result = BaseDao.executeUpdate(connection, preparedStatement, sql, params);
+        BaseDao.closeResource(null, preparedStatement, null);
+        return result;
+    }
 }

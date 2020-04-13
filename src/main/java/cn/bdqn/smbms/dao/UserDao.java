@@ -1,6 +1,7 @@
 package cn.bdqn.smbms.dao;
 
 import cn.bdqn.smbms.pojo.User;
+import cn.bdqn.smbms.util.Constants;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -24,6 +25,11 @@ public interface UserDao {
     int adduser(Connection connection, User user) throws SQLException;
 
     //根据id查询用户
-    User findById(Connection connection, Integer id) throws SQLException;
+    User findUserById(Connection connection, Integer id) throws SQLException;
 
+    //修改用户
+    int modifyUser(Connection connection, User user) throws SQLException;
+
+    //删除用户
+    int deluser(Connection connection, Integer id) throws SQLException;
 }

@@ -10,10 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -175,6 +172,54 @@ public class UserController {
         }
     }
 
+    /**
+     * 根据id查询用户
+     *
+     * @param uid
+     * @param model
+     * @return
+     */
+    @RequestMapping("/usermodify")
+    public String findUserById(@RequestParam String uid, Model model) {
+        User user = userService.findUserById(Integer.valueOf(uid));
+        model.addAttribute("user", user);
+        return "usermodify";
+    }
+
+    /**
+     * 修改用户
+     *
+     * @param user
+     * @param httpSession
+     * @return
+     */
+    @RequestMapping("/usermodifysave")
+    public String usermodifysave(User user, HttpSession httpSession) {
+        User userSession = (User) httpSession.getAttribute(Constants.USER_SESSION);
+        user.setModifyBy(userSession.getId());
+        user.setModifyDate(new Date());
+        boolean result = userService.modifyUser(user);
+        if (result) {
+            return "redirect:/user/userlist";
+        } else {
+            return "usermodify";
+        }
+
+    }
+
+    /**
+     * 查看用户详情
+     *
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+    public String userView(@PathVariable String id, Model model) {
+        User user = userService.findUserById(Integer.valueOf(id));
+        model.addAttribute("user", user);
+        return "userview";
+    }
     /**
      * 局部异常处理
      *
