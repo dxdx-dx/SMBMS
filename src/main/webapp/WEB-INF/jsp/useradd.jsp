@@ -9,7 +9,8 @@
         <span>用户管理页面 >> 用户添加页面</span>
     </div>
     <div class="providerAdd">
-        <form id="userForm" name="userForm" method="post" action="${pageContext.request.contextPath }/user/addsave">
+        <form id="userForm" name="userForm" enctype="multipart/form-data" method="post"
+              action="${pageContext.request.contextPath }/user/addsave">
             <!-- enctype="multipart/form-data" -->
             <input type="hidden" name="method" value="add">
             <!--div的class 为error是验证错误，ok是验证成功-->
@@ -72,13 +73,13 @@
                 </select>
                 <font color="red"></font>
             </div>
-            <%--                  <div>--%>
-            <%--                	<input type="hidden" id="errorinfo" value="${uploadFileError }" />--%>
-            <%--                	<label for="a_idPicPath">证件照：</label>--%>
-            <%--                	<input type="file" name="attachs" id="a_idPicPath" />--%>
-            <%--                	<font color="red"></font>--%>
-            <%--                </div>--%>
-            <%--                --%>
+            <div>
+                <input type="hidden" id="errorinfo" value="${uploadFileError }"/>
+                <label for="a_idPicPath">证件照：</label>
+                <input type="file" name="attachs" id="a_idPicPath"/>
+                <font color="red"></font>
+            </div>
+
             <%--                <div>--%>
             <%--                	<input type="hidden" id="errorinfo_wp" value="${uploadWpError }" />--%>
             <%--                	<label for="a_idPicPath">工作证照片：</label>--%>

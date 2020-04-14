@@ -34,9 +34,27 @@ public class User implements Serializable {
     private Date creationDate; // 创建时间
     private Integer modifyBy; // 更新者
     private Date modifyDate; // 更新时间
-
+    private String idPicPath; // 证件照
+    private String workPicPath; // 工作照
     private Integer age;//年龄
     private String userRoleName;//角色名称
+
+    public String getIdPicPath() {
+        return idPicPath;
+    }
+
+    public void setIdPicPath(String idPicPath) {
+        this.idPicPath = idPicPath;
+    }
+
+    public String getWorkPicPath() {
+        return workPicPath;
+    }
+
+    public void setWorkPicPath(String workPicPath) {
+        this.workPicPath = workPicPath;
+    }
+
 
     public Integer getAge() {
         int _age = new Date().getYear() - getBirthday().getYear();

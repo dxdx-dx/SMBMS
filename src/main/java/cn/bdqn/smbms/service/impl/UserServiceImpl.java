@@ -164,8 +164,8 @@ public class UserServiceImpl implements UserService {
     /**
      * 删除用户
      *
-     * @param id
-     * @return
+     * @param id 用户id
+     * @return 删除结果
      */
     @Override
     public boolean deluser(Integer id) {

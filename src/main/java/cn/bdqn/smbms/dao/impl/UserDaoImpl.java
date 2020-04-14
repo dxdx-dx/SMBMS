@@ -161,11 +161,11 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement preparedStatement = null;
         int result = 0;
         String sql = "INSERT INTO `smbms`.`smbms_user` (`userCode`,`userName`, `userPassword`, `gender`,`birthday`, " +
-                "`phone`, `address`,`userRole`,`createdBy`,`creationDate`) \n" +
-                "  VALUES( ?, ?, ?, ?,?, ?,?,?,?,?) ";
+                "`phone`, `address`,`userRole`,`createdBy`,`creationDate`,idPicPath) \n" +
+                "  VALUES( ?, ?, ?, ?,?, ?,?,?,?,?,?) ";
         Object[] params = {user.getUserCode(), user.getUserName(), user.getUserPassword(), user.getGender(),
                 user.getBirthday(), user.getPhone(), user.getAddress(), user.getUserRole(),
-                user.getCreatedBy(), user.getCreationDate()};
+                user.getCreatedBy(), user.getCreationDate(), user.getIdPicPath()};
         result = BaseDao.executeUpdate(connection, preparedStatement, sql, params);
         BaseDao.closeResource(null, preparedStatement, null);
         return result;
@@ -233,10 +233,10 @@ public class UserDaoImpl implements UserDao {
     /**
      * 删除用户
      *
-     * @param connection
-     * @param id
-     * @return
-     * @throws SQLException
+     * @param connection 连接对象
+     * @param id         用户id
+     * @return 受影响删除结果
+     * @throws SQLException SQL异常
      */
     @Override
     public int deluser(Connection connection, Integer id) throws SQLException {
