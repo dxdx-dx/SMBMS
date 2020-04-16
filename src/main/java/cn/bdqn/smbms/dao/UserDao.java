@@ -15,7 +15,6 @@ public interface UserDao {
     List<User> findByUserCode(Connection connection, String userCode) throws SQLException;
 
     //分页查询用户列表
-
     List<User> findByPage(Connection connection, String userName, Integer userRole, Integer pageNo, Integer pageSize) throws SQLException;
 
     //查询用户总条数
@@ -32,4 +31,5 @@ public interface UserDao {
 
     //删除用户
     int deluser(Connection connection, Integer id) throws SQLException;
-}
+
+ }

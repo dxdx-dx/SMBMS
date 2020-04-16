@@ -22,6 +22,15 @@ public class Bill implements Serializable {
     private Integer modifyBy;// 更新者
     private Date modifyDate;// 更新时间
     private Integer providerId;// 供应商ID
+    private String providerName;
+
+    public String getProviderName() {
+        return providerName;
+    }
+
+    public void setProviderName(String providerName) {
+        this.providerName = providerName;
+    }
 
 
     public Integer getId() {

@@ -80,12 +80,12 @@
                 <font color="red"></font>
             </div>
 
-            <%--                <div>--%>
-            <%--                	<input type="hidden" id="errorinfo_wp" value="${uploadWpError }" />--%>
-            <%--                	<label for="a_idPicPath">工作证照片：</label>--%>
-            <%--                	<input type="file" name="attachs" id="a_workPicPath" />--%>
-            <%--                	<font color="red"></font>--%>
-            <%--                </div>--%>
+            <div>
+                <input type="hidden" id="errorinfo_wp" value="${uploadWpError }"/>
+                <label for="a_idPicPath">工作证照片：</label>
+                <input type="file" name="attachs" id="a_workPicPath"/>
+                <font color="red"></font>
+            </div>
 
             <div class="providerAddBtn">
                 <input type="button" name="add" id="add" value="保存">

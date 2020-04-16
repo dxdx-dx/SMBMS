@@ -64,8 +64,9 @@ public class UserDaoImpl implements UserDao {
      * @param userRole   用户角色
      * @param pageNo     当前页
      * @param pageSize   页大小
-     * @return 用户集合
-     * @throws SQLException sql异常
+     * @return java.util.List<cn.bdqn.smbms.pojo.User>
+     * @author Matrix
+     * @date 2020/4/16 2:13
      */
     @Override
     public List<User> findByPage(Connection connection, String userName, Integer userRole, Integer pageNo, Integer pageSize) throws SQLException {
@@ -86,12 +87,6 @@ public class UserDaoImpl implements UserDao {
         sql.append(" ORDER BY `creationDate`DESC LIMIT ?,? ");
         paramsList.add(pageNo);
         paramsList.add(pageSize);
-        System.out.println("=====================sql.toString()===========================");
-        System.out.println(sql.toString());
-        System.out.println("=====================userName===========================");
-        System.out.println(userName + "+++" + userRole + "+++" + pageNo + "+++" + pageSize);
-        System.out.println("=====================paramsList===========================");
-        System.out.println(paramsList.toArray());
         resultSet = BaseDao.executeQuery(connection, preparedStatement, resultSet, sql.toString(), paramsList.toArray());
         User user;
         while (resultSet.next()) {
@@ -161,11 +156,11 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement preparedStatement = null;
         int result = 0;
         String sql = "INSERT INTO `smbms`.`smbms_user` (`userCode`,`userName`, `userPassword`, `gender`,`birthday`, " +
-                "`phone`, `address`,`userRole`,`createdBy`,`creationDate`,idPicPath) \n" +
-                "  VALUES( ?, ?, ?, ?,?, ?,?,?,?,?,?) ";
+                "`phone`, `address`,`userRole`,`createdBy`,`creationDate`,idPicPath,workPicPath) \n" +
+                "  VALUES( ?, ?, ?, ?,?, ?,?,?,?,?,?,?) ";
         Object[] params = {user.getUserCode(), user.getUserName(), user.getUserPassword(), user.getGender(),
                 user.getBirthday(), user.getPhone(), user.getAddress(), user.getUserRole(),
-                user.getCreatedBy(), user.getCreationDate(), user.getIdPicPath()};
+                user.getCreatedBy(), user.getCreationDate(), user.getIdPicPath(), user.getWorkPicPath()};
         result = BaseDao.executeUpdate(connection, preparedStatement, sql, params);
         BaseDao.closeResource(null, preparedStatement, null);
         return result;
@@ -216,6 +211,20 @@ public class UserDaoImpl implements UserDao {
      * @return 受影响行数
      * @throws SQLException SQL异常
      */
+
+    /**
+     * @param connection
+     * @param user
+     * @return int
+     * @Description:
+     * @version 0.1
+     * .0
+     * @author You
+     * @date 2020/4/16
+     * 2:00
+     * @since 0.1
+     * .0
+     */
     @Override
     public int modifyUser(Connection connection, User user) throws SQLException {
         PreparedStatement preparedStatement = null;
@@ -248,4 +257,6 @@ public class UserDaoImpl implements UserDao {
         BaseDao.closeResource(null, preparedStatement, null);
         return result;
     }
+
+
 }

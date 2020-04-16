@@ -61,7 +61,6 @@ public class BaseDao {
             }
         }
         resultSet = preparedStatement.executeQuery();
-
         return resultSet;
     }
 

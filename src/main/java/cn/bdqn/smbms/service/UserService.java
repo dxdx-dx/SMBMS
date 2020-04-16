@@ -29,4 +29,5 @@ public interface UserService {
 
     //删除用户
     boolean deluser(Integer id);
+
 }

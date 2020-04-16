@@ -15,7 +15,7 @@
             <span>用户角色：</span>
             <select name="queryUserRole">
                 <c:if test="${roleList != null }">
-                    <option value="0">--请选择--</option>
+                    <option value="0">--全部--</option>
                     <c:forEach var="role" items="${roleList}">
                         <option
                                 <c:if test="${role.id == queryUserRole }">selected="selected"</c:if>

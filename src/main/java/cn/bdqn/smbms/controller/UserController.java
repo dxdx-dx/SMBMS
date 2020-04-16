@@ -7,6 +7,7 @@ import cn.bdqn.smbms.service.UserService;
 import cn.bdqn.smbms.util.Constants;
 import cn.bdqn.smbms.util.PageSupport;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 用户控制层
@@ -29,7 +31,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    private Logger logger = Logger.getLogger(UserController.class);
+    private final Logger logger = Logger.getLogger(UserController.class);
     @Resource
     private UserService userService;
     @Resource
@@ -94,14 +96,14 @@ public class UserController {
         if (queryUserRole == null) {
             _queryUserRole = 0;
         } else {
-            _queryUserRole = Integer.valueOf(queryUserRole);
+            _queryUserRole = Integer.parseInt(queryUserRole);
         }
         //当前页
         int _pageIndex;
         if (pageIndex == null) {
             _pageIndex = 1;
         } else {
-            _pageIndex = Integer.valueOf(pageIndex);
+            _pageIndex = Integer.parseInt(pageIndex);
         }
         //分页对象
         PageSupport pageSupport = new PageSupport();
@@ -138,6 +140,7 @@ public class UserController {
         return "redirect:/user/login";
     }
 
+
     /**
      * 跳转到添加用户页面
      *
@@ -153,12 +156,93 @@ public class UserController {
     }
 
     /**
-     * 添加用户 spring标签+=单文件上传
+     * 添加用户 spring标签+=多文件上传
      *
      * @param user        用户对象
      * @param httpSession session对象
      * @return 跳转页面
      */
+    @RequestMapping("/addsave")
+    public String addsave(User user, HttpSession httpSession, HttpServletRequest httpServletRequest,
+                          @RequestParam(value = "attachs", required = false) MultipartFile[] multipartFiles) {
+        //证件照路径+名称
+        String idPicPath = null;
+        //工作照路径 + 名称
+        String workPicPath = null;
+        String errorInfo = null;
+        //上传文件是否为空
+        boolean flag = true;
+        //上传文件的路劲
+        String path = httpSession.getServletContext().getRealPath("statics" + File.separator + "upload");
+        //定义文件上传的最大值
+        int fileSize = 5000000;
+        for (int i = 0; i < multipartFiles.length; i++) {
+            MultipartFile multipartFile = multipartFiles[i];
+            if (!multipartFile.isEmpty()) {
+                if (i == 0) {
+                    errorInfo = "uploadFileError";
+                } else {
+                    errorInfo = "uploadWpError";
+                }
+                // 上传文件的源文件名
+                String oldFileName = multipartFile.getOriginalFilename();
+                //获取文件的扩展名
+                String extension = FilenameUtils.getExtension(oldFileName);
+                if (multipartFile.getSize() > fileSize) {
+                    httpServletRequest.setAttribute(errorInfo, "文件不能超过5M");
+                    flag = false;
+                } else if (extension.equalsIgnoreCase("jpeg") ||
+                        extension.equalsIgnoreCase("pneg") ||
+                        extension.equalsIgnoreCase("jpg") ||
+                        extension.equalsIgnoreCase("png")) {
+                    //上传文件的新名字
+                    String newFileName = System.currentTimeMillis() + RandomUtils.nextInt(10000) + "_person.jpg";
+                    //上传文件对象
+                    File targerFile = new File(path, newFileName);
+                    if (!targerFile.exists()) {
+                        //创建文件夹
+                        targerFile.mkdirs();
+                    }
+                    try {
+                        multipartFile.transferTo(targerFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        httpServletRequest.setAttribute(errorInfo, "上传错误");
+                    }
+                    if (i == 0) {
+                        idPicPath = path + File.separator + newFileName;
+                    } else {
+                        workPicPath = path + File.separator + newFileName;
+                    }
+
+                } else {
+                    httpServletRequest.setAttribute(errorInfo, "文件格式不正确，必须是jpg或者png");
+                    flag = false;
+                }
+            }
+        }
+        if (flag) {
+            User userSession = (User) httpSession.getAttribute(Constants.USER_SESSION);
+            user.setCreatedBy(userSession.getId());
+            user.setCreationDate(new Date());
+            user.setIdPicPath(idPicPath);
+            user.setWorkPicPath(workPicPath);
+            boolean result = userService.adduser(user);
+            if (result) {
+                return "redirect:/user/userlist";
+            }
+        }
+        return "useradd";
+
+
+    }
+    /*  *//**
+     * 添加用户 spring标签+=单文件上传
+     *
+     * @param user        用户对象
+     * @param httpSession session对象
+     * @return 跳转页面
+     *//*
     @RequestMapping("/addsave")
     public String addsave(User user, HttpSession httpSession, HttpServletRequest httpServletRequest,
                           @RequestParam(value = "attachs", required = false) MultipartFile multipartFile) {
@@ -192,7 +276,7 @@ public class UserController {
                     httpServletRequest.setAttribute("uploadFileError", "上传错误");
                     return "useradd";
                 }
-                idPicPath = path + newFileName;
+                idPicPath = path +File.separator + newFileName;
             } else {
                 httpServletRequest.setAttribute("uploadFileError", "文件格式不正确，必须是jpg或者png");
                 return "useradd";
@@ -209,7 +293,7 @@ public class UserController {
             // return "user/adduser";
             return "useradd";
         }
-    }
+    }*/
 
     /**
      * 添加用户 spring标签
@@ -290,6 +374,7 @@ public class UserController {
         }
 
     }
+
 
     /**
      * 查看用户详情
