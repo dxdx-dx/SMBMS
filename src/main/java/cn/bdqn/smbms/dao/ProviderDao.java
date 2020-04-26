@@ -21,4 +21,14 @@ public interface ProviderDao {
 
     //添加供应商
     int addPrivider(Connection connection, Provider provider) throws SQLException;
+
+    //根据id查询供应商
+    Provider findProviderById(Connection connection, Integer id) throws SQLException;
+
+    //修改供应商
+    int providerModify(Connection connection, Provider provider) throws SQLException;
+
+    //删除供应商
+    int delprovider(Connection connection, Integer id) throws SQLException;
+
 }

@@ -2,7 +2,6 @@ package cn.bdqn.smbms.service;
 
 import cn.bdqn.smbms.pojo.User;
 
-import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -30,4 +29,6 @@ public interface UserService {
     //删除用户
     boolean deluser(Integer id);
 
+    //根据用户编码查询用户
+    User findByUserCode(String userCode);
 }

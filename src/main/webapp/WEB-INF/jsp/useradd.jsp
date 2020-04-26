@@ -60,8 +60,8 @@
             <div>
                 <label>用户角色：</label>
                 <!-- 列出所有的角色分类 -->
-                <!-- <select name="userRole" id="userRole"></select> -->
-                <select name="userRole" id="userRole">
+                <select name="userRole" id="userRole"></select>
+                <%--<select name="userRole" id="userRole">
                     <c:forEach items="${roleList }" var="role" varStatus="status">
                         <option value="${role.id }">${role.roleName}</option>
                     </c:forEach>
@@ -70,7 +70,7 @@
                     <option value="2">经理</option>
                     <option value="3" selected="selected">普通用户</option>
                     -->
-                </select>
+                </select>--%>
                 <font color="red"></font>
             </div>
             <div>

@@ -78,7 +78,9 @@ public class BaseDao {
                                     String sql, Object[] params) throws SQLException {
         int result = 0;
         preparedStatement = connection.prepareStatement(sql);
-
+        System.out.println("----------------------------------------------------------------------");
+        System.out.println(sql);
+        System.out.println("----------------------------------------------------------------------");
         if (params != null) {
             for (int i = 0; i < params.length; i++) {
                 preparedStatement.setObject(i + 1, params[i]);

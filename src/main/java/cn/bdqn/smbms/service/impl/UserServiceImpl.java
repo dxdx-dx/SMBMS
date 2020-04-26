@@ -19,7 +19,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Resource
-    private UserDao userDao;
+    private UserDao userDao;//用户dao层对象
 
     /**
      * 登陆
@@ -184,5 +184,28 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-
+    /**
+     * 根据用户编码查询用户
+     *
+     * @param userCode 用户编码
+     * @author Matrix
+     * @date 2020/4/24 9:15
+     */
+    @Override
+    public User findByUserCode(String userCode) {
+        Connection connection = null;
+        User user = null;
+        try {
+            connection = BaseDao.getConnection();
+            List<User> userList = userDao.findByUserCode(connection, userCode);
+            if (userList != null && userList.size() > 0) {
+                user = userList.get(0);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            BaseDao.closeResource(connection, null, null);
+        }
+        return user;
+    }
 }

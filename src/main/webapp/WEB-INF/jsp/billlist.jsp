@@ -33,7 +33,7 @@
             </select>
             <input type="hidden" name="pageIndex" value="1"/>
             <input value="查 询" type="submit" id="searchbutton">
-            <a href="${pageContext.request.contextPath }/jsp/billadd.jsp">添加订单</a>
+            <a href="${pageContext.request.contextPath }/bill/billadd">添加订单</a>
         </form>
     </div>
     <!--账单表格 样式和供应商公用-->

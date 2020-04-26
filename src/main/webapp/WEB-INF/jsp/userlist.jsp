@@ -81,7 +81,42 @@
         <c:param name="currentPageNo" value="${currentPageNo}"/>
         <c:param name="totalPageCount" value="${totalPageCount}"/>
     </c:import>
+    <div class="providerAdd">
+        <div>
+            <label>用户编码:</label>
+            <input type="text" id="v_userCode" value="" readonly="readonly"/>
+        </div>
+        <div>
+            <label>用户名称:</label>
+            <input type="text" id="v_userName" value="" readonly="readonly"/>
+        </div>
+        <div>
+            <label>用户性别:</label>
+            <input type="text" id="v_gender" value="" readonly="readonly"/>
+        </div>
+        <div>
+            <label>出生日期：</label>
+            <input type="text" class="Wdate" id="v_birthday" value="" readonly="readonly" onclick="WdatePicker();"/>
+        </div>
+        <div>
+            <label>用户电话：</label>
+            <input type="text" id="v_phone" value="" readonly="readonly"/>
+        </div>
+        <div>
+            <label>用户角色：</label>
+            <input type="text" id="v_userRoleName" value="" readonly="readonly"/>
+        </div>
+        <div>
+            <label>用户地址：</label>
+            <input type="text" id="v_address" value="" readonly="readonly"/>
+        </div>
+        <div>
+            <label>创建日期：</label>
+            <input type="text" id="v_creationDate" value="" readonly="readonly"/>
+        </div>
+    </div>
 </div>
+
 </section>
 
 <!--点击删除按钮后弹出的页面-->

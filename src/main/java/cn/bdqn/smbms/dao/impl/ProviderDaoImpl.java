@@ -22,13 +22,14 @@ public class ProviderDaoImpl implements ProviderDao {
     /**
      * 分页查询供应商列表
      *
-     * @param connection
-     * @param proCode
-     * @param proName
-     * @param pageNo
-     * @param pageSize
-     * @return
-     * @throws SQLException
+     * @param connection 连接对象
+     * @param proCode    供应商编码
+     * @param proName    供应商名称
+     * @param pageNo     当前页
+     * @param pageSize   页大小
+     * @return java.util.List<cn.bdqn.smbms.pojo.Provider>
+     * @author Matrix
+     * @date 2020/4/26 23:04
      */
     @Override
     public List<Provider> findByPage(Connection connection, String proCode, String proName, Integer pageNo, Integer pageSize) throws SQLException {
@@ -73,11 +74,12 @@ public class ProviderDaoImpl implements ProviderDao {
     /**
      * 查询供应商总条数
      *
-     * @param connection
-     * @param proCode
-     * @param proName
-     * @return
-     * @throws SQLException
+     * @param connection 连接对象
+     * @param proCode    供应商编码
+     * @param proName    供应商名称
+     * @return int
+     * @author Matrix
+     * @date 2020/4/26 23:03
      */
     @Override
     public int findByPageCount(Connection connection, String proCode, String proName) throws SQLException {
@@ -102,6 +104,14 @@ public class ProviderDaoImpl implements ProviderDao {
         return result;
     }
 
+    /**
+     * 查询所有供应商名称
+     *
+     * @param connection 连接对象
+     * @return java.util.List<cn.bdqn.smbms.pojo.Provider>
+     * @author Matrix
+     * @date 2020/4/26 23:02
+     */
     @Override
     public List<Provider> findName(Connection connection) throws SQLException {
         PreparedStatement preparedStatement = null;
@@ -122,11 +132,11 @@ public class ProviderDaoImpl implements ProviderDao {
     /**
      * 添加供应商
      *
-     * @param connection
-     * @param provider
+     * @param connection 连接对象
+     * @param provider   供应商对象
      * @return int
      * @author Matrix
-     * @date 2020/4/16 20:07
+     * @date 2020/4/26 23:02
      */
     @Override
     public int addPrivider(Connection connection, Provider provider) throws SQLException {
@@ -138,6 +148,85 @@ public class ProviderDaoImpl implements ProviderDao {
         Object[] params = {provider.getProCode(), provider.getProName(), provider.getProDesc(),
                 provider.getProContact(), provider.getProPhone(), provider.getProAddress(),
                 provider.getProFax(), provider.getCreatedBy(), provider.getCreationDate()};
+        result = BaseDao.executeUpdate(connection, preparedStatement, sql, params);
+        BaseDao.closeResource(null, preparedStatement, null);
+        return result;
+    }
+
+    /**
+     * 根据偶读查询供应商
+     *
+     * @param connection 连接对象
+     * @param id         供应商id
+     * @return cn.bdqn.smbms.pojo.Provider
+     * @author Matrix
+     * @date 2020/4/26 23:01
+     */
+    @Override
+    public Provider findProviderById(Connection connection, Integer id) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM `smbms_provider` WHERE id=?";
+        Object[] params = {id};
+        resultSet = BaseDao.executeQuery(connection, preparedStatement, resultSet, sql, params);
+        Provider provider = null;
+        while (resultSet.next()) {
+            provider = new Provider();
+            provider.setId(resultSet.getInt("id"));
+            provider.setProCode(resultSet.getString("proCode"));
+            provider.setProName(resultSet.getString("proName"));
+            provider.setProDesc(resultSet.getString("proDesc"));
+            provider.setProContact(resultSet.getString("proContact"));
+            provider.setProPhone(resultSet.getString("proPhone"));
+            provider.setProAddress(resultSet.getString("proAddress"));
+            provider.setProFax(resultSet.getString("proFax"));
+            provider.setCreatedBy(resultSet.getInt("createdBy"));
+            provider.setCreationDate(resultSet.getDate("creationDate"));
+            provider.setModifyBy(resultSet.getInt("modifyBy"));
+            provider.setModifyDate(resultSet.getDate("modifyDate"));
+        }
+        BaseDao.closeResource(null, preparedStatement, resultSet);
+        return provider;
+    }
+
+    /**
+     * 修改供应商
+     *
+     * @param connection 连接对象
+     * @param provider   供应商对象
+     * @return int
+     * @author Matrix
+     * @date 2020/4/26 23:00
+     */
+    @Override
+    public int providerModify(Connection connection, Provider provider) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        int result;
+        String sql = "UPDATE  `smbms`.`smbms_provider` SET`proCode` = ?," +
+                "`proName` = ?,`proDesc` = ?,`proContact` = ?, `proPhone` = ?," +
+                "`proAddress` = ?, `proFax` = ?,`modifyDate` = ?,`modifyBy` = ? " +
+                "WHERE `id` = ? ";
+        Object[] params = {provider.getProCode(), provider.getProName(), provider.getProDesc(),
+                provider.getProContact(), provider.getProPhone(), provider.getProAddress(),
+                provider.getProFax(), provider.getModifyDate(), provider.getModifyBy(), provider.getId()};
+        result = BaseDao.executeUpdate(connection, preparedStatement, sql, params);
+        BaseDao.closeResource(null, preparedStatement, null);
+        return result;
+    }
+
+    /**
+     * 删除供应商
+     *
+     * @return int
+     * @author Matrix
+     * @date 2020/4/26 23:41
+     */
+    @Override
+    public int delprovider(Connection connection, Integer id) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        int result;
+        Object[] params = {id};
+        String sql = "DELETE FROM`smbms`.`smbms_provider` WHERE `id` = ? ";
         result = BaseDao.executeUpdate(connection, preparedStatement, sql, params);
         BaseDao.closeResource(null, preparedStatement, null);
         return result;

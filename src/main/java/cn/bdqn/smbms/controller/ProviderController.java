@@ -5,14 +5,16 @@ import cn.bdqn.smbms.pojo.User;
 import cn.bdqn.smbms.service.ProviderService;
 import cn.bdqn.smbms.util.Constants;
 import cn.bdqn.smbms.util.PageSupport;
+import com.alibaba.fastjson.JSONArray;
+import com.mysql.jdbc.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,16 +24,16 @@ import java.util.List;
 @RequestMapping("/provider")
 public class ProviderController {
     @Resource
-    private ProviderService providerService;
+    private ProviderService providerService;//供应商service层对象
 
     /**
      * 分页查询供应商列表
      *
-     * @param queryProCode
-     * @param queryProName
-     * @param pageIndex
-     * @param model
-     * @return
+     * @param queryProCode 供应商编码
+     * @param queryProName 供应商名称
+     * @param pageIndex    当前页
+     * @param model        model对象
+     * @return 供应商列表页面
      */
     @RequestMapping("/providerlist")
     public String findByPage(@RequestParam(value = "queryProCode", required = false) String queryProCode,
@@ -69,13 +71,22 @@ public class ProviderController {
     /**
      * 跳转供应商添加页面
      *
-     * @return
+     * @return 供应商添加页面
      */
     @RequestMapping("/provideradd")
     public String provideradd() {
         return "provideradd";
     }
 
+    /**
+     * 供应商添加
+     *
+     * @param provider    供应商对象
+     * @param httpSession session对象
+     * @return java.lang.String
+     * @author Matrix
+     * @date 2020/4/26 22:51
+     */
     @RequestMapping("/providersave")
     public String providersave(Provider provider, HttpSession httpSession) {
         User userSession = (User) httpSession.getAttribute(Constants.USER_SESSION);
@@ -88,4 +99,83 @@ public class ProviderController {
             return "provideradd";
         }
     }
+
+    /**
+     * 跳转供应商修改页面
+     *
+     * @param uid   供应商id
+     * @param model model对象
+     * @return java.lang.String
+     * @author Matrix
+     * @date 2020/4/26 22:52
+     */
+    @RequestMapping("/providermodify")
+    public String findUserById(@RequestParam String uid, Model model) {
+        Provider provider = providerService.findProviderById(Integer.valueOf(uid));
+        model.addAttribute("provider", provider);
+        return "providermodify";
+    }
+
+    /**
+     * 供应商修改
+     *
+     * @param provider    供应商对象
+     * @param httpSession session对象
+     * @return java.lang.String
+     * @author Matrix
+     * @date 2020/4/26 22:52
+     */
+    @RequestMapping("/providermodifysave")
+    public String providermodifysave(Provider provider, HttpSession httpSession) {
+        User userSession = (User) httpSession.getAttribute(Constants.USER_SESSION);
+        provider.setModifyBy(userSession.getId());
+        provider.setModifyDate(new Date());
+        boolean result = providerService.providerModify(provider);
+        if (result) {
+            return "redirect:/provider/providerlist";
+        } else {
+            return "providermodify";
+        }
+    }
+
+    /**
+     * 查看供应商详情
+     *
+     * @param id    供应商id
+     * @param model model对象
+     * @return java.lang.String
+     * @author Matrix
+     * @date 2020/4/26 22:53
+     */
+    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+    public String userView(@PathVariable String id, Model model) {
+        Provider provider = providerService.findProviderById(Integer.valueOf(id));
+        model.addAttribute("provider", provider);
+        return "providerview";
+    }
+
+    /**
+     * 删除供应商
+     *
+     * @return java.lang.Object
+     * @author Matrix
+     * @date 2020/4/26 23:55
+     */
+    @RequestMapping("/delprovider")
+    @ResponseBody
+    public Object delprovider(@RequestParam String proid) {
+        HashMap<String, String> delResult = new HashMap<>();
+        if (StringUtils.isNullOrEmpty(proid)) {
+            delResult.put("delResult", "notexist");
+        } else {
+            boolean flag = providerService.delprovider(Integer.valueOf(proid));
+            if (flag == true) {
+                delResult.put("delResult", "true");
+            } else {
+                delResult.put("delResult", "false");
+            }
+        }
+        return JSONArray.toJSONString(delResult);
+    }
+
 }

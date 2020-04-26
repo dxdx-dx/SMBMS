@@ -1,6 +1,7 @@
 package cn.bdqn.smbms.service;
 
 import cn.bdqn.smbms.pojo.Provider;
+import cn.bdqn.smbms.pojo.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -21,4 +22,14 @@ public interface ProviderService {
 
     //添加供应商
     boolean addPrivider(Provider provider);
+
+    //根据id查询供应商
+    Provider findProviderById(Integer id);
+
+    //修改供应商
+    boolean providerModify(Provider provider);
+
+    //删除供应商
+    boolean delprovider(Integer id);
+
 }

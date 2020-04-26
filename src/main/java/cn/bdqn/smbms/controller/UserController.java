@@ -1,29 +1,31 @@
 package cn.bdqn.smbms.controller;
 
+import cn.bdqn.smbms.pojo.Provider;
 import cn.bdqn.smbms.pojo.Role;
 import cn.bdqn.smbms.pojo.User;
 import cn.bdqn.smbms.service.RoleService;
 import cn.bdqn.smbms.service.UserService;
 import cn.bdqn.smbms.util.Constants;
 import cn.bdqn.smbms.util.PageSupport;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.mysql.jdbc.StringUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 /**
  * 用户控制层
@@ -31,24 +33,37 @@ import java.util.Random;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    private final Logger logger = Logger.getLogger(UserController.class);
     @Resource
-    private UserService userService;
+    private UserService userService;//用户service层对象
     @Resource
-    private RoleService roleService;
+    private RoleService roleService; //角色service层对象
 
+    /**
+     * 跳转登陆页面
+     *
+     * @return java.lang.String
+     * @author Matrix
+     * @date 2020/4/26 23:05
+     */
     @RequestMapping("/login")
     public String login() {
         return "login";
     }
 
+    /**
+     * 跳转主页面
+     *
+     * @return java.lang.String
+     * @author Matrix
+     * @date 2020/4/26 23:05
+     */
     @RequestMapping("/main")
     public String main() {
         return "frame";
     }
 
     /**
-     * 登陆工能
+     * 登陆功能
      *
      * @param userCode     用户名code
      * @param userPassword 密码
@@ -150,9 +165,23 @@ public class UserController {
     @RequestMapping("/useradd")
     public String adduser(@ModelAttribute("user") User user, Model model) {
         List<Role> roleList = roleService.findAll();
-        model.addAttribute("roleList", roleList);
+        // model.addAttribute("roleList", roleList);
         //return "useradd";
         return "useradd";//Spring标签的表单页面
+    }
+
+    /**
+     * 通过ajax异步获取角色列表
+     *
+     * @return java.lang.Object
+     * @author Matrix
+     * @date 2020/4/26 22:45
+     */
+    @RequestMapping("/roleList")
+    @ResponseBody
+    public Object roleList() {
+        List<Role> roleList = roleService.findAll();
+        return JSONArray.toJSONString(roleList);
     }
 
     /**
@@ -233,10 +262,8 @@ public class UserController {
             }
         }
         return "useradd";
-
-
     }
-    /*  *//**
+    /**
      * 添加用户 spring标签+=单文件上传
      *
      * @param user        用户对象
@@ -379,16 +406,92 @@ public class UserController {
     /**
      * 查看用户详情
      *
-     * @param id    用户id
-     * @param model model对象
+     * @param id 用户id
      * @return 详情页面
      */
-    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
-    public String userView(@PathVariable String id, Model model) {
-        User user = userService.findUserById(Integer.valueOf(id));
-        model.addAttribute("user", user);
-        return "userview";
+//    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+//    public String userView(@PathVariable String id, Model model) {
+//        User user = userService.findUserById(Integer.valueOf(id));
+//        model.addAttribute("user", user);
+//        return "userview";
+//    }
+
+    /**
+     * 查看用户详情
+     *
+     * @param id 用户id
+     * @return java.lang.Object
+     * @author Matrix
+     * @date 2020/4/26 22:56
+     */
+    @RequestMapping(value = "/view", method = RequestMethod.GET)
+    //解决中文乱码----produces = {"application/json;charset=UTF-8"}
+    @ResponseBody
+    public Object userView(@RequestParam String id) {
+        User user = null;
+        if (StringUtils.isNullOrEmpty(id)) {
+            // userJson = "nodata";
+        } else {
+            user = userService.findUserById(Integer.valueOf(id));
+            // userJson = JSON.toJSONString(user);
+        }
+        return user;
     }
+
+    /**
+     * 判断用户编码是否可用
+     *
+     * @param userCode 用户编码
+     * @return java.lang.Object
+     * @author Matrix
+     * @date 2020/4/26 22:56
+     */
+    @RequestMapping("/userCodeIsExist")
+    @ResponseBody
+    public Object userCodeIsExist(@RequestParam(value = "userCode", required = true) String userCode) {
+        HashMap<String, String> resultMap = new HashMap<>();
+        if (StringUtils.isNullOrEmpty(userCode)) {
+            resultMap.put("userCode", "empty");
+        } else {
+            User user = userService.findByUserCode(userCode);
+            if (user != null) {
+                resultMap.put("userCode", "exist");
+            } else {
+                resultMap.put("userCode", "noexist");
+            }
+
+        }
+        return JSONArray.toJSONString(resultMap);
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param uid 用户id
+     * @return java.lang.Object
+     * @author Matrix
+     * @date 2020/4/26 23:43
+     */
+    @RequestMapping("/deluser")
+    @ResponseBody
+    public Object deluser(@RequestParam String uid) {
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println(uid);
+        HashMap<String, String> delResult = new HashMap<>();
+        if (StringUtils.isNullOrEmpty(uid)) {
+            delResult.put("delResult", "notexist");
+        } else {
+            boolean flag = userService.deluser(Integer.valueOf(uid));
+            if (flag == true) {
+                delResult.put("delResult", "true");
+            } else {
+                delResult.put("delResult", "false");
+            }
+        }
+        return JSONArray.toJSONString(delResult);
+    }
+
+
     /**
      * 局部异常处理
      *

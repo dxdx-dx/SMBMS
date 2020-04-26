@@ -193,7 +193,7 @@ public class UserDaoImpl implements UserDao {
             user.setAddress(resultSet.getString("address"));
             user.setUserRole(resultSet.getInt("userRole"));
             user.setCreatedBy(resultSet.getInt("createdBy"));
-            user.setCreationDate(resultSet.getDate("creationDate"));
+            user.setCreationDate(resultSet.getTimestamp("creationDate"));
             user.setModifyBy(resultSet.getInt("modifyBy"));
             user.setModifyDate(resultSet.getDate("modifyDate"));
             user.setUserRoleName(resultSet.getString("roleName"));
@@ -212,19 +212,6 @@ public class UserDaoImpl implements UserDao {
      * @throws SQLException SQL异常
      */
 
-    /**
-     * @param connection
-     * @param user
-     * @return int
-     * @Description:
-     * @version 0.1
-     * .0
-     * @author You
-     * @date 2020/4/16
-     * 2:00
-     * @since 0.1
-     * .0
-     */
     @Override
     public int modifyUser(Connection connection, User user) throws SQLException {
         PreparedStatement preparedStatement = null;

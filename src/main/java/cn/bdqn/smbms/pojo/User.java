@@ -1,5 +1,6 @@
 package cn.bdqn.smbms.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,6 +27,7 @@ public class User implements Serializable {
     private Integer gender; // 性别
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past(message = "出生日期必须是过去的时间")
+    @JSONField(format = "yyyy-MM-dd")
     private Date birthday; // 出生日期
     private String phone; // 电话
     private String address; // 地址

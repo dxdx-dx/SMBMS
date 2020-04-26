@@ -18,12 +18,10 @@ import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
     @Resource
-    private RoleDao roleDao;
+    private RoleDao roleDao;//角色dao层对象
 
     /**
      * 查询所有角色
-     *
-     * @return 角色集合
      */
     @Override
     public List<Role> findAll() {

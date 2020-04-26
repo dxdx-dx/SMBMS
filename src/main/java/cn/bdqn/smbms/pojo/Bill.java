@@ -24,6 +24,26 @@ public class Bill implements Serializable {
     private Integer providerId;// 供应商ID
     private String providerName;
 
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "id=" + id +
+                ", billCode='" + billCode + '\'' +
+                ", productName='" + productName + '\'' +
+                ", productDesc='" + productDesc + '\'' +
+                ", productUnit='" + productUnit + '\'' +
+                ", productCount=" + productCount +
+                ", totalPrice=" + totalPrice +
+                ", isPayment=" + isPayment +
+                ", createdBy=" + createdBy +
+                ", creationDate=" + creationDate +
+                ", modifyBy=" + modifyBy +
+                ", modifyDate=" + modifyDate +
+                ", providerId=" + providerId +
+                ", providerName='" + providerName + '\'' +
+                '}';
+    }
+
     public String getProviderName() {
         return providerName;
     }
