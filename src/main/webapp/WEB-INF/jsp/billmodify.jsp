@@ -23,7 +23,7 @@
                 <font color="red"></font>
             </div>
             <div>
-                <label for="productDesc">商品名称：</label>
+                <label for="productDesc">商品描述：</label>
                 <input type="text" name="productDesc" id="productDesc" value="${bill.productDesc }">
                 <font color="red"></font>
             </div>

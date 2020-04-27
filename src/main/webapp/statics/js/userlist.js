@@ -52,34 +52,34 @@ $(function () {
     $(".viewUser").on("click", function () {
         //将被绑定的元素（a）转换成jquery对象，可以使用jquery方法
         var obj = $(this);
-        //window.location.href=path+"/user/view/" + obj.attr("userid");
-        $.ajax({
-            url: path + "/user/view.json",
-            type: "GET",
-            data: {id: obj.attr("userid")},
-            dataType: "json",
-            success: function (data) {
-                if (data == "nodata") {
-                    alert("错误")
-                } else {
-                    $("#v_userCode").val(data.userCode);
-                    $("#v_userName").val(data.userName);
-                    if (data.gender == 1) {
-                        $("#v_gender").val("女");
-                    } else {
-                        $("#v_gender").val("男");
-                    }
-                    $("#v_birthday").val(data.birthday);
-                    $("#v_phone").val(data.phone);
-                    $("#v_userRoleName").val(data.userRoleName);
-                    $("#v_address").val(data.address);
-                    $("#v_creationDate").val(data.creationDate);
-                }
-            },
-            error: function () {
-                alert("ajax错误")
-            }
-        })
+        window.location.href = path + "/user/view/" + obj.attr("userid");
+        /* $.ajax({
+             url: path + "/user/view.json",
+             type: "GET",
+             data: {id: obj.attr("userid")},
+             dataType: "json",
+             success: function (data) {
+                 if (data == "nodata") {
+                     alert("错误")
+                 } else {
+                     $("#v_userCode").val(data.userCode);
+                     $("#v_userName").val(data.userName);
+                     if (data.gender == 1) {
+                         $("#v_gender").val("女");
+                     } else {
+                         $("#v_gender").val("男");
+                     }
+                     $("#v_birthday").val(data.birthday);
+                     $("#v_phone").val(data.phone);
+                     $("#v_userRoleName").val(data.userRoleName);
+                     $("#v_address").val(data.address);
+                     $("#v_creationDate").val(data.creationDate);
+                 }
+             },
+             error: function () {
+                 alert("ajax错误")
+             }
+         })*/
     });
 
     $(".modifyUser").on("click", function () {

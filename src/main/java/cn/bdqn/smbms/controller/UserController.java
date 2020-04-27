@@ -409,12 +409,12 @@ public class UserController {
      * @param id 用户id
      * @return 详情页面
      */
-//    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
-//    public String userView(@PathVariable String id, Model model) {
-//        User user = userService.findUserById(Integer.valueOf(id));
-//        model.addAttribute("user", user);
-//        return "userview";
-//    }
+    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+    public String userView(@PathVariable String id, Model model) {
+        User user = userService.findUserById(Integer.valueOf(id));
+        model.addAttribute("user", user);
+        return "userview";
+    }
 
     /**
      * 查看用户详情
@@ -424,19 +424,19 @@ public class UserController {
      * @author Matrix
      * @date 2020/4/26 22:56
      */
-    @RequestMapping(value = "/view", method = RequestMethod.GET)
-    //解决中文乱码----produces = {"application/json;charset=UTF-8"}
-    @ResponseBody
-    public Object userView(@RequestParam String id) {
-        User user = null;
-        if (StringUtils.isNullOrEmpty(id)) {
-            // userJson = "nodata";
-        } else {
-            user = userService.findUserById(Integer.valueOf(id));
-            // userJson = JSON.toJSONString(user);
-        }
-        return user;
-    }
+//    @RequestMapping(value = "/view", method = RequestMethod.GET)
+//    //解决中文乱码----produces = {"application/json;charset=UTF-8"}
+//    @ResponseBody
+//    public Object userView(@RequestParam String id) {
+//        User user = null;
+//        if (StringUtils.isNullOrEmpty(id)) {
+//            // userJson = "nodata";
+//        } else {
+//            user = userService.findUserById(Integer.valueOf(id));
+//            // userJson = JSON.toJSONString(user);
+//        }
+//        return user;
+//    }
 
     /**
      * 判断用户编码是否可用
@@ -475,8 +475,6 @@ public class UserController {
     @RequestMapping("/deluser")
     @ResponseBody
     public Object deluser(@RequestParam String uid) {
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(uid);
         HashMap<String, String> delResult = new HashMap<>();
         if (StringUtils.isNullOrEmpty(uid)) {
             delResult.put("delResult", "notexist");
@@ -491,6 +489,64 @@ public class UserController {
         return JSONArray.toJSONString(delResult);
     }
 
+    /**
+     * 跳转密码修改页面
+     *
+     * @return java.lang.String
+     * @author Matrix
+     * @date 2020/4/27 12:47
+     */
+    @RequestMapping("/pwdmodify")
+    public String pwdmodify() {
+        return "pwdmodify";
+    }
+
+    /**
+     * 判断旧密码是否正确
+     *
+     * @return java.lang.Object
+     * @author Matrix
+     * @date 2020/4/27 12:54
+     */
+    @RequestMapping("/validatePwd")
+    @ResponseBody
+    public Object validatePwd(@RequestParam(value = "oldpassword", required = true) String oldpassword, HttpSession session) {
+        HashMap<String, String> resultMap = new HashMap<String, String>();
+        if (StringUtils.isNullOrEmpty(oldpassword)) {
+            resultMap.put("result", "error");
+        } else {
+            User sessionUser = (User) session.getAttribute(Constants.USER_SESSION);
+            if (sessionUser == null) {
+                resultMap.put("result", "sessionerror");
+            } else {
+                boolean result = userService.validatePwd(sessionUser.getId(), oldpassword);
+                if (result) {
+                    resultMap.put("result", "true");
+                } else {
+                    resultMap.put("result", "false");
+                }
+            }
+        }
+        return JSONArray.toJSONString(resultMap);
+    }
+
+    /**
+     * 根据id修改密码
+     *
+     * @return java.lang.String
+     * @author Matrix
+     * @date 2020/4/27 13:04
+     */
+    @RequestMapping("/pwdmodifysave")
+    public String pwdmodifysave(@RequestParam(value = "newpassword", required = true) String newpassword, HttpSession session) {
+        User userSession = (User) session.getAttribute(Constants.USER_SESSION);
+        boolean result = userService.pwdmodifysave(userSession.getId(), newpassword);
+        if (result) {
+            return "redirect:/user/login";
+        } else {
+            return "pwdmodify";
+        }
+    }
 
     /**
      * 局部异常处理

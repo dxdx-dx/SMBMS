@@ -32,4 +32,7 @@ public interface UserDao {
     //删除用户
     int deluser(Connection connection, Integer id) throws SQLException;
 
- }
+    //根据id修改密码
+    int modifyPwd(Connection conn, Integer id, String newPwd) throws SQLException;
+
+}

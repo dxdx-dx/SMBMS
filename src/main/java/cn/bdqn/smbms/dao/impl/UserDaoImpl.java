@@ -245,5 +245,23 @@ public class UserDaoImpl implements UserDao {
         return result;
     }
 
+    /**
+     * 根据id修改密码
+     *
+     * @return int
+     * @author Matrix
+     * @date 2020/4/27 12:56
+     */
+    @Override
+    public int modifyPwd(Connection conn, Integer id, String newPwd) throws SQLException {
+        PreparedStatement ps = null;
+        int result = 0;
+        String sql = "UPDATE smbms_user SET userPassword = ? WHERE id = ?";
+        Object[] params = {newPwd, id};
+
+        result = BaseDao.executeUpdate(conn, ps, sql, params);
+        BaseDao.closeResource(null, ps, null);
+        return result;
+    }
 
 }

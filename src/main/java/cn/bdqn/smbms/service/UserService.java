@@ -31,4 +31,10 @@ public interface UserService {
 
     //根据用户编码查询用户
     User findByUserCode(String userCode);
+
+    //根据id判断旧密码
+    boolean validatePwd(Integer id, String oldPwd);
+
+    //根据id修改密码
+    boolean pwdmodifysave(Integer id, String newPwd);
 }

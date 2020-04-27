@@ -141,7 +141,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @param user 用户对象
+     * 修改用户
+     *
      * @return 跳转页面
      */
     @Override
@@ -207,5 +208,56 @@ public class UserServiceImpl implements UserService {
             BaseDao.closeResource(connection, null, null);
         }
         return user;
+    }
+
+    /**
+     * 根据id判断旧密码
+     *
+     * @return boolean
+     * @author Matrix
+     * @date 2020/4/27 12:57
+     */
+    @Override
+    public boolean validatePwd(Integer id, String oldPwd) {
+        Connection conn = null;
+        boolean flag = false;
+        try {
+            conn = BaseDao.getConnection();
+            User user = userDao.findUserById(conn, id);
+            if (user != null) {
+                if (user.getUserPassword().equals(oldPwd)) {
+                    flag = true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            BaseDao.closeResource(conn, null, null);
+        }
+        return flag;
+    }
+
+    /**
+     * 根据id修改密码
+     *
+     * @return boolean
+     * @author Matrix
+     * @date 2020/4/27 13:01
+     */
+    @Override
+    public boolean pwdmodifysave(Integer id, String newPwd) {
+        Connection connection = null;
+        boolean result = false;
+        int res = 0;
+        try {
+            connection = BaseDao.getConnection();
+            res = userDao.modifyPwd(connection, id, newPwd);
+            if (res > 0) result = true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            BaseDao.closeResource(connection, null, null);
+        }
+        return result;
     }
 }

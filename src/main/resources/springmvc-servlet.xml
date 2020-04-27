@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
     <!--解析器-->
     <context:component-scan base-package="cn.bdqn.smbms.controller"/>
-    <mvc:annotation-driven>
+    <mvc:annotation-driven conversion-service="stringToDateConversionService">
         <mvc:message-converters>
             <!--解决全局Controller中json中文乱码-->
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
@@ -34,6 +34,18 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
+
+    <!-- 类型转换器（String -> Date） -->
+    <bean id="stringToDateConversionService"
+          class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="cn.bdqn.smbms.converter.StringToDateConverter">
+                    <constructor-arg type="java.lang.String" value="yyyy-MM-dd"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
     <!-- 静态文件资源的引用 -->
     <mvc:resources mapping="/statics/**" location="/statics/"/>
 
