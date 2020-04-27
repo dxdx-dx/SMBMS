@@ -25,7 +25,7 @@ public class User implements Serializable {
     @Length(min = 6, max = 10, message = "用户密码必须在6-10位")
     private String userPassword; // 用户密码
     private Integer gender; // 性别
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    // @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past(message = "出生日期必须是过去的时间")
     @JSONField(format = "yyyy-MM-dd")
     private Date birthday; // 出生日期
