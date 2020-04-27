@@ -1,18 +1,15 @@
 package cn.bdqn.smbms.controller;
 
-import cn.bdqn.smbms.pojo.Provider;
 import cn.bdqn.smbms.pojo.Role;
 import cn.bdqn.smbms.pojo.User;
 import cn.bdqn.smbms.service.RoleService;
 import cn.bdqn.smbms.service.UserService;
 import cn.bdqn.smbms.util.Constants;
 import cn.bdqn.smbms.util.PageSupport;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.mysql.jdbc.StringUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.math.RandomUtils;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -81,12 +78,12 @@ public class UserController {
             sesion.setAttribute(Constants.USER_SESSION, user);
             return "redirect:/user/main";
         } else {
-            // request.setAttribute("error", "用户名或者密码不正确！！！");
-            // return "login";
+            request.setAttribute("error", "用户名或者密码不正确！！！");
+            return "login";
             /**
              * 全局异常处理
              */
-            throw new RuntimeException("用户名或者密码不正确！！！");
+            //  throw new RuntimeException("用户名或者密码不正确！！！");
         }
     }
 
