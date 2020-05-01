@@ -3,7 +3,6 @@ package cn.bdqn.smbms.service.impl;
 import cn.bdqn.smbms.dao.BaseDao;
 import cn.bdqn.smbms.dao.BillDao;
 import cn.bdqn.smbms.pojo.Bill;
-import cn.bdqn.smbms.pojo.Provider;
 import cn.bdqn.smbms.service.BillService;
 import cn.bdqn.smbms.util.Constants;
 import org.springframework.stereotype.Service;

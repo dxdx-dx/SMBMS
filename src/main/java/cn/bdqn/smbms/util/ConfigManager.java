@@ -14,6 +14,9 @@ public class ConfigManager {
 
     /**
      * 私有构造方法
+     *
+     * @author Matrix
+     * @date 2020/4/28 21:50
      */
     private ConfigManager() {
         InputStream in = null;

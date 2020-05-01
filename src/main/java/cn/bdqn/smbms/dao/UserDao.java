@@ -1,7 +1,6 @@
 package cn.bdqn.smbms.dao;
 
 import cn.bdqn.smbms.pojo.User;
-import cn.bdqn.smbms.util.Constants;
 
 import java.sql.Connection;
 import java.sql.SQLException;

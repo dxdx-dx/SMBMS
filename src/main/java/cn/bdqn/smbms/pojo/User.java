@@ -3,12 +3,10 @@ package cn.bdqn.smbms.pojo;
 import com.alibaba.fastjson.annotation.JSONField;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 用户表实体类
