@@ -47,7 +47,9 @@ public class BillController {
                              @RequestParam(value = "queryProviderId", required = false) String queryProviderId,
                              @RequestParam(value = "queryIsPayment", required = false) String queryIsPayment,
                              @RequestParam(value = "pageIndex", required = false) String pageIndex, Model model) {
-        if (queryProductName == null) queryProductName = "";
+        if (queryProductName == null) {
+            queryProductName = "";
+        }
         int _queryProviderId;
         if (queryProviderId == null) {
             _queryProviderId = -1;
